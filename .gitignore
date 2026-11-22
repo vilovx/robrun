@@ -1,0 +1,9 @@
+.DS_Store
+*.bak
+shots/
+assets/town-v6/
+assets/street-v*/
+assets/street-src/
+assets/*backup*
+assets/*-v1.*
+node_modules/

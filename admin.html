@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heist Līga — Organizatora panelis</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="logo/mark-vault.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="hla-body">
+<div class="hla-wrap">
+  <header class="hla-head">
+    <div class="hla-brand">
+      <img src="logo/mark-vault.svg" width="40" height="40" alt="Heist Līga">
+      <div>
+        <h1>Heist Līga · Organiser</h1>
+        <p>Privāts pārvaldības panelis · noindex</p>
+      </div>
+    </div>
+    <div class="hla-head-actions">
+      <span class="hla-user-pill" id="hla-user-pill" hidden></span>
+      <a class="hla-mini" href="./" target="_blank" rel="noopener">Publiskā lapa ↗</a>
+      <button type="button" class="hla-mini" id="hla-refresh-btn" hidden>Atjaunot</button>
+      <button type="button" class="hla-mini is-del" id="hla-signout-btn" hidden>Iziet</button>
+    </div>
+  </header>
+
+  <!-- 1. Auth view -->
+  <section id="hla-auth-view" class="hla-auth-wrap" hidden>
+    <div class="hla-card">
+      <h2>Organizatora pieslēgšanās</h2>
+      <p class="hla-hint">Piekļuve tikai atļautajam Heist Līga organizatora kontam (Supabase Auth + UID saraksts).</p>
+      <div class="hla-tabs" role="tablist">
+        <button type="button" class="hla-tab is-on" data-auth-mode="signin">Pieslēgties</button>
+        <button type="button" class="hla-tab" data-auth-mode="signup">Izveidot kontu</button>
+        <button type="button" class="hla-tab" data-auth-mode="magic">Magic Link</button>
+      </div>
+      <form class="hla-form" id="hla-auth-form">
+        <label>E-pasts
+          <input name="email" type="email" required autocomplete="email" placeholder="vilov@...">
+        </label>
+        <label id="hla-nick-wrap" hidden>Segvārds (jaunam kontam, 2–24 rakstzīmes)
+          <input name="nick" maxlength="24" pattern="[A-Za-z0-9_. -]{2,24}" placeholder="piem., vilxv_hl">
+        </label>
+        <label id="hla-pass-wrap">Parole
+          <input name="password" type="password" minlength="8" autocomplete="current-password" placeholder="Vismaz 8 rakstzīmes">
+        </label>
+        <label id="hla-age-wrap" hidden style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px">
+          <input name="age18" type="checkbox" style="width:auto"> Apstiprinu, ka esmu sasniedzis 18 gadu vecumu
+        </label>
+        <div class="hla-inline-actions">
+          <button type="submit" class="hl-btn" id="hla-auth-submit">Pieslēgties</button>
+          <button type="button" class="hla-mini" id="hla-forgot-btn">Aizmirsu paroli</button>
+        </div>
+      </form>
+      <div class="hla-msg" id="hla-auth-msg" hidden></div>
+    </div>
+  </section>
+
+  <!-- 2. Authenticated but not on hl.organisers allowlist -->
+  <section id="hla-claim-view" class="hla-auth-wrap" hidden>
+    <div class="hla-card">
+      <h2>Nepieciešama organizatora atļauja</h2>
+      <p class="hla-hint">Esi veiksmīgi pieslēdzies Supabase Auth, taču šis konts vēl nav pievienots vienīgā organizatora sarakstam (<code>hl.organisers</code>).</p>
+      <p class="hla-hint">E-pasts: <b id="hla-claim-email"></b><br>Auth UID: <code id="hla-claim-uid"></code></p>
+      <p class="hla-hint">Lai piešķirtu piekļuvi šim kontam, Supabase Dashboard → SQL Editor izpildi vienu rindu:</p>
+      <pre class="hla-code" id="hla-claim-sql"></pre>
+      <div class="hla-inline-actions">
+        <button type="button" class="hl-btn" id="hla-recheck-btn">Pārbaudīt piekļuvi</button>
+        <button type="button" class="hla-mini" id="hla-copy-sql-btn">Kopēt SQL</button>
+      </div>
+      <div class="hla-msg" id="hla-claim-msg" hidden></div>
+    </div>
+  </section>
+
+  <!-- 3. Organiser dashboard -->
+  <main id="hla-dash-view" hidden>
+    <div class="hla-kpis" id="hla-kpis"></div>
+
+    <div class="hla-sec-bar">
+      <h2>Serveri &amp; Turnīra iestatījumi</h2>
+    </div>
+    <section class="hla-settings-grid">
+      <form class="hla-setting-card hla-form" id="hla-f-current-server">
+        <div>
+          <h3>Kur spēlējam tagad</h3>
+          <p class="hla-hint">Publiski redzams sadaļā «Kur spēlējam tagad» un Torņa kartītē.</p>
+          <label>Pašreizējais serveris
+            <input name="server" maxlength="40" required placeholder="piem., EU-West 14">
+          </label>
+        </div>
+        <div class="hla-inline-actions">
+          <button type="submit" class="hl-btn">Saglabāt serveri</button>
+        </div>
+      </form>
+
+      <form class="hla-setting-card hla-form" id="hla-f-tourney-server">
+        <div>
+          <h3>Turnīra serveris</h3>
+          <p class="hla-hint">Rādās Bank of Heist kartītē (piem., «Jauns ES serveris» vai konkrēts serveris).</p>
+          <label>Turnīra serveris
+            <input name="server" maxlength="40" required placeholder="Jauns ES serveris">
+          </label>
+        </div>
+        <div class="hla-inline-actions">
+          <button type="submit" class="hl-btn">Saglabāt turnīra serveri</button>
+        </div>
+      </form>
+
+      <form class="hla-setting-card hla-form" id="hla-f-start">
+        <div>
+          <h3>Turnīra sākuma laiks (Rīga)</h3>
+          <p class="hla-hint">Atjauno atskaiti, hero datumu un Bank of Heist kartīti.</p>
+          <div class="hla-row2">
+            <label>Datums un laiks (Europe/Riga)
+              <input name="local_dt" type="datetime-local" required>
+            </label>
+            <label>Laika joslas nobīde
+              <select name="tz">
+                <option value="+02:00">+02:00 (ziemas laiks)</option>
+                <option value="+03:00">+03:00 (vasaras laiks)</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="hla-inline-actions">
+          <button type="submit" class="hl-btn">Saglabāt starta laiku</button>
+        </div>
+      </form>
+
+      <form class="hla-setting-card hla-form" id="hla-f-prize">
+        <div>
+          <h3>Balvas teksts</h3>
+          <p class="hla-hint">Atstāj tukšu, lai rādītu noklusēto «Summa tiks paziņota».</p>
+          <label>Balva (līdz 80 rakstzīmēm)
+            <input name="prize" maxlength="80" placeholder="piem., 50 € vai Summa tiks paziņota">
+          </label>
+          <label>Piezīme zem balvas (neobligāti, līdz 240 rakstzīmēm)
+            <input name="note" maxlength="240" placeholder="Tukšs = noklusējuma piezīme">
+          </label>
+        </div>
+        <div class="hla-inline-actions">
+          <button type="submit" class="hl-btn">Saglabāt balvu</button>
+        </div>
+      </form>
+
+      <form class="hla-setting-card hla-form" id="hla-f-cap">
+        <div>
+          <h3>Vietu limits</h3>
+          <p class="hla-hint">Maksimālais dalībnieku skaits turnīrā (1–256).</p>
+          <label>Max dalībnieki
+            <input name="max" type="number" min="1" max="256" required>
+          </label>
+        </div>
+        <div class="hla-inline-actions">
+          <button type="submit" class="hl-btn">Saglabāt limitu</button>
+        </div>
+      </form>
+
+      <form class="hla-setting-card hla-form" id="hla-f-ttl">
+        <div>
+          <h3>«Es spēlēju» TTL</h3>
+          <p class="hla-hint">Stundas līdz statusam «Neaktīvs» (1–168) un dienas līdz dzēšanai (1–30).</p>
+          <div class="hla-row2">
+            <label>Aktīvs (stundas)
+              <input name="active_hours" type="number" min="1" max="168" required>
+            </label>
+            <label>Dzēst pēc (dienas)
+              <input name="expire_days" type="number" min="1" max="30" required>
+            </label>
+          </div>
+        </div>
+        <div class="hla-inline-actions">
+          <button type="submit" class="hl-btn">Saglabāt TTL</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Clips moderation -->
+    <div class="hla-sec-bar">
+      <h2>Heist Klipi (moderācija)</h2>
+      <div class="hla-tabs" id="hla-clip-tabs" style="margin:0;border:0;padding:0">
+        <button type="button" class="hla-tab is-on" data-filter="pending">Gaida</button>
+        <button type="button" class="hla-tab" data-filter="approved">Apstiprināti</button>
+        <button type="button" class="hla-tab" data-filter="hidden">Paslēpti</button>
+        <button type="button" class="hla-tab" data-filter="all">Visi</button>
+      </div>
+    </div>
+    <div class="hla-table-wrap" id="hla-clips-wrap"></div>
+
+    <!-- Results verification -->
+    <div class="hla-sec-bar">
+      <h2>Authority Rezultāti</h2>
+      <div class="hla-tabs" id="hla-res-tabs" style="margin:0;border:0;padding:0">
+        <button type="button" class="hla-tab is-on" data-filter="pending">Gaida pārbaudi</button>
+        <button type="button" class="hla-tab" data-filter="verified">Pārbaudīti</button>
+        <button type="button" class="hla-tab" data-filter="all">Visi</button>
+      </div>
+    </div>
+    <div class="hla-table-wrap" id="hla-results-wrap"></div>
+
+    <!-- Live presence players -->
+    <div class="hla-sec-bar">
+      <h2>Aktīvie spēlētāji («Kur spēlējam tagad»)</h2>
+    </div>
+    <div class="hla-table-wrap" id="hla-players-wrap"></div>
+
+    <!-- Signups -->
+    <div class="hla-sec-bar">
+      <h2>Turnīra pieteikumi</h2>
+      <button type="button" class="hla-mini" id="hla-export-signups">Eksportēt CSV</button>
+    </div>
+    <div class="hla-table-wrap" id="hla-signups-wrap"></div>
+  </main>
+
+  <div class="hl-toast" id="hl-toast" role="status"></div>
+</div>
+<script src="data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
