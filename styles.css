@@ -729,9 +729,13 @@ tr.fresh td{background:rgba(182,255,59,.05)}
   .hl-spot::after{transition:none}
 }
 
-.hl-signup-list{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 10px}
-.hl-signup-list li{margin:0;padding:4px 8px;border:1px solid var(--line);background:rgba(0,0,0,.2);font:600 13px/1.2 var(--mono);color:var(--bone)}
-.hl-signup-list .hl-signup-empty{border:0;background:transparent;font-weight:500;color:var(--mute);padding-left:0}
+.hl-roster .hl-roster-lead{margin:16px 0 8px;max-width:36em}
+.hl-roster .hl-form{margin-top:4px}
+.hl-roster .hl-discord{margin-top:16px}
+.hl-signup-list{list-style:none;margin:8px 0 0;padding:0;border:1px solid var(--line);background:rgba(0,0,0,.18)}
+.hl-signup-list li{margin:0;padding:10px 14px;border-bottom:1px solid var(--line);background:transparent;font:600 15px/1.35 var(--ui);color:var(--bone);letter-spacing:.01em}
+.hl-signup-list li:last-child{border-bottom:0}
+.hl-signup-list .hl-signup-empty{border:0;background:transparent;font-weight:500;color:var(--mute);padding:16px 14px}
 
 /* Discord rule + join links stay hidden until HL.discordInvite is set. */
 html:not(.hl-has-discord) .hl-discord-pending{display:none !important}

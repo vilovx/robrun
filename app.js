@@ -76,7 +76,7 @@
       return `<tr class="${top}${fresh}${p.example ? " is-example" : ""}">
         <td class="hl-rank">${i+1}</td>
         <td class="c-nick"><span class="hl-nick">${esc(p.nick)}</span></td>
-        <td class="c-auth r"><span class="hl-auth">${esc(String(p.auth))}<small> ${esc(authUnit(p.auth))}</small></span></td>
+        <td class="c-auth r"><span class="hl-auth">${esc(String(p.auth))}</span></td>
         <td class="c-when">${esc(p.when)}</td>
         <td class="c-vid">${videoCell(p)}</td>
         <td class="c-st">${st}</td>
@@ -107,7 +107,7 @@
           <div class="hl-case-info">
             <p class="hl-case-date">${esc(formatWinnerDate(w.dateISO) || w.date || "")}</p>
             <h3>${esc(w.nick)}</h3>
-            <p class="hl-auth">${esc(String(w.auth))}<small> ${esc(authUnit(w.auth))}</small></p>
+            <p class="hl-auth">${esc(String(w.auth))}</p>
             <p class="hl-small">${esc(t("winner_note"))}</p>
             <span class="hl-badge ok">${t("badge_verified")}</span>
           </div>
@@ -143,30 +143,27 @@
   function seatsFull(){ return signed >= maxSeats; }
   function renderSeats(){
     const full = seatsFull();
-    const html = full
-      ? t("seats_full_html", { n: maxSeats })
-      : t("seats_count_html", { signed, max: maxSeats });
+    // Public page never shows a participant cap or X/N seat counter.
     ["hl-seats-hero","hl-seats-form"].forEach(id => {
       const el = document.getElementById(id);
-      if (el){ el.innerHTML = html; el.classList.toggle("is-full", full); }
+      if (el){ el.innerHTML = ""; el.hidden = true; }
     });
     const note = $("#hl-signed-note");
-    if (note) note.innerHTML = html;
+    if (note) note.textContent = "";
+    // Cap is hidden and applies only to new nicknames; existing nicks can still update Authority.
     const btn = $("#hl-signup-btn");
     if (btn){
-      btn.disabled = full;
-      btn.textContent = full ? t("seats_full") : t("btn_signup");
+      btn.disabled = false;
+      btn.textContent = t("btn_signup_save");
     }
     const cta = $("#hl-cta-signup");
     if (cta){
-      cta.classList.toggle("is-disabled", full);
-      if (full){ cta.textContent = t("seats_full"); } else { cta.textContent = t("btn_signup"); }
+      cta.classList.remove("is-disabled");
+      cta.textContent = t("btn_signup");
     }
     const form = $("#hl-signup");
     if (form){
-      [...form.querySelectorAll("input,button[type=submit]")].forEach(i => {
-        if (i.id === "hl-signup-btn" || i.tagName === "INPUT") i.disabled = full;
-      });
+      [...form.querySelectorAll("input,button[type=submit]")].forEach(i => { i.disabled = false; });
     }
   }
 
@@ -205,7 +202,6 @@
 
   $("#hl-signup").addEventListener("submit", async e => {
     e.preventDefault();
-    if (seatsFull()){ toast(t("seats_full")); return; }
     const fd = new FormData(e.target);
     const nick = (fd.get("nick")||"").trim();
     if (!nick) return;
@@ -229,11 +225,11 @@
         }
         return;
       }
-      signed = typeof out.count === "number" ? out.count : signed + 1;
+      signed = typeof out.count === "number" ? out.count : signed;
       if (typeof out.max === "number") maxSeats = out.max;
       renderSeats();
       e.target.reset();
-      toast(seatsFull() ? t("signup_ok_full") : t("signup_ok"));
+      toast(out.updated ? t("signup_updated") : t("signup_ok"));
       loadSeats();
     } catch (err) {
       toast(err.message || t("signup_fail_retry"));
@@ -511,14 +507,14 @@
   }
   function townCardBody(spot){
     if (spot === "bank"){
-      const full = seatsFull();
-      const seats = full ? t("seats_full") : t("seats_taken", { signed, max: maxSeats });
       return `<p class="hl-card-kicker">${t("card_bank_kicker")}</p>
         <h3>${t("card_bank_title")}</h3>
         <p class="hl-card-meta"><b>${t("card_time")}</b> ${esc(formatEventDate())} ${t("riga_time")}</p>
-        <p class="hl-card-meta"><b>${t("card_server")}</b> ${esc(townMeta.tourneyServer)}</p>
-        <p class="hl-card-meta"><b>${t("card_seats")}</b> ${esc(seats)}</p>
-        <div class="hl-card-actions"><a class="hl-btn" href="#pieteikties">${t("btn_signup")}</a></div>`;
+        <p class="hl-card-meta"><b>${t("card_tourney_server")}</b> ${esc(townMeta.tourneyServer)}</p>
+        <div class="hl-card-actions">
+          <a class="hl-btn" href="#pieteikties">${t("btn_signup")}</a>
+          <a class="hl-btn hl-btn-ghost" href="#tabula">${t("btn_board")}</a>
+        </div>`;
     }
     if (spot === "pd"){
       const latest = townMeta.latest
@@ -526,7 +522,7 @@
         : "";
       const w = data.winners && data.winners[0];
       const win = w
-        ? `<p class="hl-card-meta">${esc(t("card_last_winner", { nick: w.nick, auth: fmtAuth(w.auth) }))}</p>`
+        ? `<p class="hl-card-meta">${esc(t("card_last_winner", { nick: w.nick, auth: w.auth }))}</p>`
         : `<p class="hl-card-meta">${esc(t("winners_empty"))}</p>`;
       return `<p class="hl-card-kicker">${t("card_pd_kicker")}</p>
         <h3>${t("card_pd_title")}</h3>
@@ -541,9 +537,11 @@
     if (spot === "tower"){
       return `<p class="hl-card-kicker">${t("card_tower_kicker")}</p>
         <h3>${t("card_tower_title")}</h3>
-        <p class="hl-card-meta"><b>${t("card_daily")}</b> ${esc(townMeta.server)}</p>
+        <p class="hl-card-meta"><b>${t("current_server")}</b> ${esc(townMeta.server)}</p>
         <p class="hl-card-meta">${esc(activeCountLabel())}</p>
-        <div class="hl-card-actions"><a class="hl-btn" href="#spelejam">${t("btn_list")}</a></div>`;
+        <div class="hl-card-actions">
+          <a class="hl-btn" href="#spelejam">${t("btn_play_now")}</a>
+        </div>`;
     }
     return `<p class="hl-card-kicker">${t("card_cine_kicker")}</p>
       <h3>${t("card_cine_title")}</h3>

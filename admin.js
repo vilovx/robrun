@@ -312,7 +312,7 @@
     }
     wrap.innerHTML = `<table class="hla-table">
       <thead><tr>
-        <th>Statuss</th><th>Spēlētājs</th><th class="r">Authority (gadi)</th><th>Video</th><th>Iesniegts</th><th>Darbības</th>
+        <th>Statuss</th><th>Spēlētājs</th><th class="r">Turnīra Authority</th><th>Video</th><th>Iesniegts</th><th>Darbības</th>
       </tr></thead>
       <tbody>${list.map(r => {
         const badge = r.verified
@@ -323,7 +323,7 @@
         return `<tr data-res-id="${esc(r.id)}">
           <td>${badge}</td>
           <td><b>${esc(r.nickname)}</b></td>
-          <td class="r"><b>${esc(formatAuthority(r.authority) || "—")}</b></td>
+          <td class="r"><b>${r.authority == null || r.authority === "" ? "—" : esc(r.authority)}</b></td>
           <td>${link}</td>
           <td>${esc(fmtWhen(r.created_at))}</td>
           <td><div class="hla-actions">
@@ -372,7 +372,7 @@
     }
     wrap.innerHTML = `<table class="hla-table">
       <thead><tr>
-        <th>#</th><th>Spēlētājs</th><th class="r">Authority (gadi)</th><th>Discord</th><th>E-pasts</th><th>Pieteicies</th><th>Darbības</th>
+        <th>#</th><th>Spēlētājs</th><th class="r">Spēles Authority (gadi)</th><th>Discord</th><th>E-pasts</th><th>Pieteicies</th><th>Darbības</th>
       </tr></thead>
       <tbody>${list.map((s, i) => `
         <tr data-signup-id="${esc(s.id)}">

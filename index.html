@@ -99,7 +99,7 @@
       </h1>
       <p class="hl-subline" data-i18n="subline">Visi sāk vienā serverī. Kurš federāļiem nodod visaugstāko Authority, tas kļūst par King of Heist LV.</p>
       <p class="hl-lead" data-i18n="lead">Starts jaunā ES serverī tā atvēršanas brīdī — 19:00 pēc Rīgas laika. Pierādījums ir ekrāna ieraksts.</p>
-      <p class="hl-seats" id="hl-seats-hero" aria-live="polite"></p>
+      <p class="hl-seats" id="hl-seats-hero" hidden></p>
       <div class="hl-hero-cta">
         <a class="hl-btn" href="#pieteikties" id="hl-cta-signup" data-i18n="btn_signup">Pieteikties</a>
         <a class="hl-btn hl-btn-ghost" href="#noteikumi" data-i18n="btn_rules">Noteikumi</a>
@@ -211,35 +211,36 @@
       <h2><span class="hl-num">03</span> <span data-i18n="signup_title">Pieteikties</span></h2>
     </div>
     <div class="hl-forms">
-      <form class="hl-card hl-form" id="hl-signup" autocomplete="off">
-        <h3 data-i18n="signup_h">Pieteikums nākamajam startam</h3>
-        <p class="hl-seats" id="hl-seats-form" aria-live="polite"></p>
-        <p class="hl-small" data-i18n="signup_lead">Pieteikums tiek saglabāts. Pirmajā turnīrā ir 32 vietas — kad tās ir pilnas, pieteikšanās slēdzas.</p>
-        <label><span data-i18n="label_player">Spēlētāja vārds (Steam / spēlē)</span>
-          <input name="nick" required maxlength="20" placeholder="Tieši tā, kā spēlē" data-i18n-placeholder="ph_signup_nick">
-        </label>
-        <label><span data-i18n="label_signup_auth">Authority (gadi)</span>
-          <input name="authority" type="number" inputmode="numeric" min="0" max="99999" step="1" required placeholder="piem., 12 gadi" data-i18n-placeholder="ph_signup_auth">
-        </label>
-        <p class="hl-small" data-i18n="signup_auth_help">ROB RUN Authority tiek rādīts gados.</p>
-        <button class="hl-btn" type="submit" id="hl-signup-btn" data-i18n="btn_signup">Pieteikties</button>
-        <p class="hl-signed" id="hl-signed-note"></p>
+      <div class="hl-card hl-roster">
+        <h3 data-i18n="signup_list_title">Spēlētāji</h3>
+        <ul class="hl-signup-list" id="hl-signup-list"></ul>
+        <p class="hl-small hl-roster-lead" data-i18n="signup_update_lead">Gribi pievienoties vai atjaunot savu Authority? Ieraksti savu niku un pašreizējo spēles Authority.</p>
+        <form class="hl-form" id="hl-signup" autocomplete="off">
+          <p class="hl-seats" id="hl-seats-form" hidden></p>
+          <label><span data-i18n="label_player">Spēlētāja vārds (Steam / spēlē)</span>
+            <input name="nick" required maxlength="20" placeholder="Tieši tā, kā spēlē" data-i18n-placeholder="ph_signup_nick">
+          </label>
+          <label><span data-i18n="label_signup_auth">Tava spēles Authority (gadi)</span>
+            <input name="authority" type="number" inputmode="numeric" min="0" max="99999" step="1" required placeholder="piem., 12 gadi" data-i18n-placeholder="ph_signup_auth">
+          </label>
+          <p class="hl-small" data-i18n="signup_auth_help">Tavs pašreizējais Authority spēlē, nevis turnīra punkti.</p>
+          <button class="hl-btn" type="submit" id="hl-signup-btn" data-i18n="btn_signup_save">Saglabāt</button>
+          <p class="hl-signed" id="hl-signed-note"></p>
+        </form>
         <div class="hl-discord hl-discord-pending">
           <a class="hl-btn hl-btn-ghost hl-discord-join is-soon" href="#" aria-disabled="true">Heist Līga Discord</a>
           <span class="hl-soon" data-i18n="discord_soon">Saite būs drīzumā. Atsevišķs Heist Līga serveris, nav FlowAthletiq Discord.</span>
         </div>
-      </form>
+      </div>
       <div class="hl-card hl-signup-side">
         <h3 data-i18n="know_title">Kas jāzina pirms starta</h3>
         <ul>
-          <li data-i18n="know_1">Pirmajā turnīrā ir 32 vietas. Kad tās ir pilnas, pieteikšanās slēdzas.</li>
+          <li data-i18n="know_1">Pieteikumā norādi savu spēles Authority. Turnīra punkti sākas no 0.</li>
           <li class="hl-discord-pending" data-i18n="know_2">Dalībniekiem jāpievienojas Heist Līga Discord serverim — saite būs drīzumā.</li>
           <li data-i18n="know_3">Starts ir 19:00 pēc Rīgas laika, vienā jaunā ES serverī.</li>
           <li data-i18n="know_4">Ekrāna ierakstam jābūt gatavam pirms nodošanās federāļiem.</li>
-          <li data-i18n="know_5">Ja segvārds jau ir pieteicies, jauns pieteikums netiks pieņemts.</li>
+          <li data-i18n="know_5">Ja šis niks jau ir sarakstā, vari atjaunot savu spēles Authority.</li>
         </ul>
-        <h3 data-i18n="signup_list_title">Pieteikušies</h3>
-        <ul class="hl-signup-list" id="hl-signup-list"></ul>
       </div>
     </div>
   </section>
@@ -255,7 +256,7 @@
           <tr>
             <th data-i18n="col_hash">#</th>
             <th data-i18n="col_player">Spēlētājs</th>
-            <th class="r" data-i18n="col_auth">Authority (gadi)</th>
+            <th class="r" data-i18n="col_auth">Turnīra Authority</th>
             <th data-i18n="col_surrender">Nodošanās</th>
             <th data-i18n="col_video">Video</th>
             <th data-i18n="col_status">Statuss</th>
@@ -274,15 +275,15 @@
     </div>
     <div class="hl-forms">
       <form class="hl-card hl-form" id="hl-submit" autocomplete="off">
-        <h3 data-i18n="submit_h">Video un Authority (gadi)</h3>
+        <h3 data-i18n="submit_h">Video un Turnīra Authority</h3>
         <p class="hl-small" data-i18n="submit_lead">Rezultāts tiek nosūtīts pārbaudei un parādās tabulā ar statusu «Gaida». Video saitei jābūt https://.</p>
         <label><span data-i18n="label_player_short">Spēlētāja vārds</span>
           <input name="nick" required maxlength="20" placeholder="Tieši tā, kā spēlē un ierakstā" data-i18n-placeholder="ph_result_nick">
         </label>
-        <label><span data-i18n="label_auth">Saņemtais Authority (gadi)</span>
-          <input name="auth" type="number" min="1" max="99999" required placeholder="piem., 12 gadi" data-i18n-placeholder="ph_auth">
+        <label><span data-i18n="label_auth">Turnīra Authority</span>
+          <input name="auth" type="number" min="1" max="99999" required placeholder="piem., 12" data-i18n-placeholder="ph_auth">
         </label>
-        <p class="hl-small" data-i18n="auth_help">ROB RUN Authority tiek rādīts gados.</p>
+        <p class="hl-small" data-i18n="auth_help">Punkti šajā turnīrā. Visi sāk no 0.</p>
         <label><span data-i18n="label_video">Video saite</span>
           <input name="video" type="url" required maxlength="200" placeholder="https:// — YouTube, Google Drive vai Streamable" data-i18n-placeholder="ph_result_url">
         </label>
@@ -292,7 +293,7 @@
         <h3 data-i18n="show_title">Ko rādīt ierakstā</h3>
         <ul>
           <li data-i18n="show_1">Ieraksts sākas vismaz 30 sekundes pirms nodošanās.</li>
-          <li data-i18n="show_2">Redzams spēlētāja vārds, nodošanās brīdis un Authority gados.</li>
+          <li data-i18n="show_2">Redzams spēlētāja vārds, nodošanās brīdis un Turnīra Authority.</li>
           <li data-i18n="show_3">Bez griezumiem un paātrinājumiem.</li>
           <li data-i18n="show_4">Saite jāiesniedz 24 stundu laikā pēc nodošanās.</li>
         </ul>
