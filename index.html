@@ -47,7 +47,7 @@
       <a href="#spelejam" data-i18n="nav_server">Serveris</a>
       <a href="#ka-notiek" data-i18n="nav_how">Kā tas notiek</a>
       <a href="#noteikumi" data-i18n="nav_rules">Noteikumi</a>
-      <a href="#pieteikties" data-i18n="nav_signup">Pieteikties</a>
+      <a href="turnirs.html" data-i18n="nav_signup">Pieteikties</a>
       <a href="#tabula" data-i18n="nav_board">Tabula</a>
       <a href="#iesniegt" data-i18n="nav_submit">Iesniegt</a>
       <a href="#klipi" data-i18n="nav_clips">Klipi</a>
@@ -84,8 +84,6 @@
 
   <section class="hl-hero">
     <div class="hl-hero-copy">
-      <p class="hl-fan-line" data-i18n="fan_line">Neoficiāla ROB RUN fanu kopienas lapa. Nav saistīta ar Kefir.</p>
-      <p class="hl-kicker" data-i18n="kicker_lv">Heist Līga · Latvija</p>
       <h1 class="hl-title">
         <span class="hl-title-mark" aria-hidden="true">
           <svg viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,10 +96,9 @@
         <span class="hl-title-main">Heist LV</span>
       </h1>
       <p class="hl-subline" data-i18n="subline">Visi sāk vienā serverī. Kurš federāļiem nodod visaugstāko Authority, tas kļūst par King of Heist LV.</p>
-      <p class="hl-lead" data-i18n="lead">Starts jaunā ES serverī tā atvēršanas brīdī — 19:00 pēc Rīgas laika. Pierādījums ir ekrāna ieraksts.</p>
       <p class="hl-seats" id="hl-seats-hero" hidden></p>
       <div class="hl-hero-cta">
-        <a class="hl-btn" href="#pieteikties" id="hl-cta-signup" data-i18n="btn_signup">Pieteikties</a>
+        <a class="hl-btn" href="turnirs.html" id="hl-cta-signup" data-i18n="btn_signup">Pieteikties</a>
         <a class="hl-btn hl-btn-ghost" href="#noteikumi" data-i18n="btn_rules">Noteikumi</a>
       </div>
     </div>
@@ -123,35 +120,8 @@
   <section class="hl-sec hl-live" id="spelejam">
     <div class="hl-sec-head">
       <h2 data-i18n="live_title">Kur spēlējam tagad</h2>
-      <span class="hl-stamp">LIVE</span>
-      <svg class="hl-ico hl-ico-head" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 20h16c3 0 6 3 6 8v8c0 3-3 6-6 6H16c-3 0-6-3-6-6v-8c0-5 3-8 6-8z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="30" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M26 28h8M26 33h6M24 12l-6 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </div>
-    <div class="hl-live-grid">
-      <div class="hl-card hl-now">
-        <p class="hl-kicker" data-i18n="current_server">Pašreizējais serveris</p>
-        <p class="hl-now-name" id="hl-now-server">…</p>
-        <p class="hl-small" data-i18n="current_server_note">Organizators iestata servera nosaukumu, kad tas ir zināms.</p>
-      </div>
-      <form class="hl-card hl-form" id="hl-play" autocomplete="off">
-        <h3 data-i18n="i_play">Es spēlēju</h3>
-        <p class="hl-small" data-i18n="i_play_note">Pēc 8 h ieraksts kļūst pelēks. Ja joprojām spēlē tajā pašā serverī, atjauno to. Pēc 7 dienām tas pazūd pavisam.</p>
-        <label><span data-i18n="label_nick">Segvārds</span>
-          <input name="nick" required maxlength="20" placeholder="1–20 rakstzīmes" data-i18n-placeholder="ph_nick">
-        </label>
-        <label><span data-i18n="label_server">Serveris</span>
-          <input name="server" required maxlength="40" placeholder="Servera nosaukums" id="hl-play-server" data-i18n-placeholder="ph_server">
-        </label>
-        <button class="hl-btn" type="submit" data-i18n="i_play">Es spēlēju</button>
-        <p class="hl-play-msg" id="hl-play-msg" hidden></p>
-      </form>
-    </div>
-    <div class="hl-play-tools" id="hl-play-mine" hidden>
-      <button type="button" class="hl-btn hl-btn-ghost" id="hl-play-renew" data-i18n="btn_renew">Atjaunot</button>
-      <button type="submit" class="hl-btn hl-btn-ghost" id="hl-play-save" form="hl-play" data-i18n="btn_edit">Labot</button>
-      <button type="button" class="hl-btn hl-btn-ghost" id="hl-play-leave" data-i18n="btn_remove">Noņemt sevi</button>
-    </div>
-    <h3 class="hl-live-list-title" data-i18n="active_players">Aktīvie spēlētāji</h3>
-    <ul class="hl-play-list" id="hl-play-list"></ul>
+    <p class="hl-now-name" id="hl-now-server">…</p>
   </section>
 
   <section class="hl-sec" id="ka-notiek">
@@ -206,48 +176,9 @@
     </ol>
   </section>
 
-  <section class="hl-sec" id="pieteikties">
-    <div class="hl-sec-head">
-      <h2><span class="hl-num">03</span> <span data-i18n="signup_title">Pieteikties</span></h2>
-    </div>
-    <div class="hl-forms">
-      <div class="hl-card hl-roster">
-        <h3 data-i18n="signup_list_title">Spēlētāji</h3>
-        <ul class="hl-signup-list" id="hl-signup-list"></ul>
-        <p class="hl-small hl-roster-lead" data-i18n="signup_update_lead">Gribi pievienoties vai atjaunot savu Authority? Ieraksti savu niku un pašreizējo spēles Authority.</p>
-        <form class="hl-form" id="hl-signup" autocomplete="off">
-          <p class="hl-seats" id="hl-seats-form" hidden></p>
-          <label><span data-i18n="label_player">Spēlētāja vārds (Steam / spēlē)</span>
-            <input name="nick" required maxlength="20" placeholder="Tieši tā, kā spēlē" data-i18n-placeholder="ph_signup_nick">
-          </label>
-          <label><span data-i18n="label_signup_auth">Tava spēles Authority (gadi)</span>
-            <input name="authority" type="number" inputmode="numeric" min="0" max="99999" step="1" required placeholder="piem., 12 gadi" data-i18n-placeholder="ph_signup_auth">
-          </label>
-          <p class="hl-small" data-i18n="signup_auth_help">Tavs pašreizējais Authority spēlē, nevis turnīra punkti.</p>
-          <button class="hl-btn" type="submit" id="hl-signup-btn" data-i18n="btn_signup_save">Saglabāt</button>
-          <p class="hl-signed" id="hl-signed-note"></p>
-        </form>
-        <div class="hl-discord hl-discord-pending">
-          <a class="hl-btn hl-btn-ghost hl-discord-join is-soon" href="#" aria-disabled="true">Heist Līga Discord</a>
-          <span class="hl-soon" data-i18n="discord_soon">Atsevišķs Heist Līga serveris, nav FlowAthletiq Discord.</span>
-        </div>
-      </div>
-      <div class="hl-card hl-signup-side">
-        <h3 data-i18n="know_title">Kas jāzina pirms starta</h3>
-        <ul>
-          <li data-i18n="know_1">Pieteikumā norādi savu spēles Authority. Turnīra punkti sākas no 0.</li>
-          <li class="hl-discord-pending" data-i18n="know_2">Dalībniekiem jāpievienojas Heist Līga Discord serverim — saite ir šajā lapā.</li>
-          <li data-i18n="know_3">Starts ir 19:00 pēc Rīgas laika, vienā jaunā ES serverī.</li>
-          <li data-i18n="know_4">Ekrāna ierakstam jābūt gatavam pirms nodošanās federāļiem.</li>
-          <li data-i18n="know_5">Ja šis niks jau ir sarakstā, vari atjaunot savu spēles Authority.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
   <section class="hl-sec" id="tabula">
     <div class="hl-sec-head">
-      <h2><span class="hl-num">04</span> <span data-i18n="board_title">Authority tabula</span></h2>
+      <h2><span class="hl-num">03</span> <span data-i18n="board_title">Authority tabula</span></h2>
     </div>
     <p class="hl-tourney-meta" id="hl-tourney-meta"></p>
     <div class="hl-table-wrap hl-dossier">
@@ -270,7 +201,7 @@
 
   <section class="hl-sec" id="iesniegt">
     <div class="hl-sec-head">
-      <h2><span class="hl-num">05</span> <span data-i18n="submit_title">Iesniegt rezultātu</span></h2>
+      <h2><span class="hl-num">04</span> <span data-i18n="submit_title">Iesniegt rezultātu</span></h2>
       <span class="hl-stamp" data-i18n="submit_stamp">24 STUNDAS</span>
     </div>
     <div class="hl-forms">
@@ -303,7 +234,7 @@
 
   <section class="hl-sec hl-clips" id="klipi">
     <div class="hl-sec-head">
-      <h2><span class="hl-num">06</span> <span data-i18n="clips_title">Heist klipi</span></h2>
+      <h2><span class="hl-num">05</span> <span data-i18n="clips_title">Heist klipi</span></h2>
       <span class="hl-stamp" data-i18n="clips_stamp">KINO</span>
     </div>
     <p class="hl-small hl-clips-lead" data-i18n="clips_lead">Ieliec saspringtu heista momentu vai vienkārši parādi savu gājienu. Der YouTube, TikTok, Twitch vai Kick saites. Jauns klips vispirms gaida organizatora apstiprinājumu.</p>
@@ -338,7 +269,7 @@
 
   <section class="hl-sec" id="uzvaretaji">
     <div class="hl-sec-head">
-      <h2><span class="hl-num">07</span> <span data-i18n="winners_title">Iepriekšējie uzvarētāji</span></h2>
+      <h2><span class="hl-num">06</span> <span data-i18n="winners_title">Iepriekšējie uzvarētāji</span></h2>
     </div>
     <div class="hl-winners" id="hl-winners"></div>
   </section>

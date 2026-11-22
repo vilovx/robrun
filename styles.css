@@ -743,3 +743,9 @@ html:not(.hl-has-discord) .hl-rules li.hl-discord-pending{counter-increment:none
 .hl-empty,.hl-empty-row td{color:var(--mute);font:500 15px/1.45 var(--ui);text-align:center;padding:28px 16px}
 .hl-empty-row td{border:0}
 #hl-now-server.is-tba{color:var(--mute);font-style:italic}
+
+/* Minimal live server + tournament registration page */
+.hl-live .hl-now-name{margin:4px 0 0}
+.hl-tourney-facts{display:flex;flex-direction:column;gap:10px;margin:0 0 16px;max-width:40em}
+.hl-tourney-facts p{margin:0}
+.hl-page-turnirs .hl-roster{max-width:40em}

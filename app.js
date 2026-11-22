@@ -33,16 +33,19 @@
     const hrs  = Math.floor(d / 3600000);  d -= hrs*3600000;
     const min  = Math.floor(d / 60000);    d -= min*60000;
     const sec  = Math.floor(d / 1000);
-    $("#hl-d").textContent = pad(days);
+    const dEl = $("#hl-d");
+    if (!dEl) return;
+    dEl.textContent = pad(days);
     $("#hl-h").textContent = pad(hrs);
     $("#hl-m").textContent = pad(min);
     $("#hl-s").textContent = pad(sec);
     const count = $("#hl-countdown");
-    if (done) count.setAttribute("data-live","starts");
+    if (done && count) count.setAttribute("data-live","starts");
   }
 
   function toast(msg){
     const el = $("#hl-toast");
+    if (!el) return;
     el.textContent = msg;
     el.classList.add("show");
     clearTimeout(toast._t);
@@ -58,6 +61,7 @@
   }
   function renderBoard(){
     const rows = $("#hl-rows");
+    if (!rows) return;
     const sorted = board.slice().sort((a,b) => b.auth - a.auth || String(a.when).localeCompare(String(b.when), "lv"));
     const countEl = $("#hl-board-count");
     if (countEl) countEl.textContent = t("results_n", { n: sorted.length });
@@ -91,12 +95,14 @@
     return t("winner_date", { d: d.getDate(), month, y: d.getFullYear() });
   }
   function renderWinners(){
+    const root = $("#hl-winners");
+    if (!root) return;
     const list = Array.isArray(data.winners) ? data.winners : [];
     if (!list.length){
-      $("#hl-winners").innerHTML = `<p class="hl-empty">${esc(t("winners_empty"))}</p>`;
+      root.innerHTML = `<p class="hl-empty">${esc(t("winners_empty"))}</p>`;
       return;
     }
-    $("#hl-winners").innerHTML = list.map((w,i) => `
+    root.innerHTML = list.map((w,i) => `
       <article class="hl-case">
         <header class="hl-case-tab">${t("case", { n: String(i+1).padStart(2,"0") })}</header>
         <div class="hl-case-body">
@@ -200,7 +206,8 @@
     }
   }
 
-  $("#hl-signup").addEventListener("submit", async e => {
+  const signupForm = $("#hl-signup");
+  if (signupForm) signupForm.addEventListener("submit", async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
     const nick = (fd.get("nick")||"").trim();
@@ -409,8 +416,8 @@
     }
   }
   async function initPresence(){
-    if (!$("#hl-play")) return;
     await loadPresence();
+    if (!$("#hl-play")) return;
     const form = $("#hl-play");
     const msg = $("#hl-play-msg");
     function showMsg(text, ok){
@@ -507,45 +514,29 @@
   }
   function townCardBody(spot){
     if (spot === "bank"){
-      return `<p class="hl-card-kicker">${t("card_bank_kicker")}</p>
-        <h3>${t("card_bank_title")}</h3>
+      return `<h3>${t("card_bank_title")}</h3>
         <p class="hl-card-meta"><b>${t("card_time")}</b> ${esc(formatEventDate())} ${t("riga_time")}</p>
         <p class="hl-card-meta"><b>${t("card_tourney_server")}</b> ${esc(townMeta.tourneyServer)}</p>
         <div class="hl-card-actions">
-          <a class="hl-btn" href="#pieteikties">${t("btn_signup")}</a>
-          <a class="hl-btn hl-btn-ghost" href="#tabula">${t("btn_board")}</a>
+          <a class="hl-btn" href="turnirs.html">${t("btn_signup")}</a>
         </div>`;
     }
     if (spot === "pd"){
-      const latest = townMeta.latest
-        ? ` · ${esc(t("card_latest", { nick: townMeta.latest }))}`
-        : "";
       const w = data.winners && data.winners[0];
       const win = w
         ? `<p class="hl-card-meta">${esc(t("card_last_winner", { nick: w.nick, auth: w.auth }))}</p>`
         : `<p class="hl-card-meta">${esc(t("winners_empty"))}</p>`;
-      return `<p class="hl-card-kicker">${t("card_pd_kicker")}</p>
-        <h3>${t("card_pd_title")}</h3>
-        <p class="hl-card-meta">${esc(activeCountLabel())}${latest}</p>
+      return `<h3>${t("card_pd_title")}</h3>
         ${win}
         <div class="hl-card-actions">
-          <a class="hl-btn" href="#spelejam">${t("btn_list")}</a>
-          <a class="hl-btn hl-btn-ghost" href="#tabula">${t("btn_board")}</a>
-          <a class="hl-btn hl-btn-ghost" href="#uzvaretaji">${t("btn_winners")}</a>
+          <a class="hl-btn" href="#uzvaretaji">${t("btn_winners")}</a>
         </div>`;
     }
     if (spot === "tower"){
-      return `<p class="hl-card-kicker">${t("card_tower_kicker")}</p>
-        <h3>${t("card_tower_title")}</h3>
-        <p class="hl-card-meta"><b>${t("current_server")}</b> ${esc(townMeta.server)}</p>
-        <p class="hl-card-meta">${esc(activeCountLabel())}</p>
-        <div class="hl-card-actions">
-          <a class="hl-btn" href="#spelejam">${t("btn_play_now")}</a>
-        </div>`;
+      return `<h3>${t("card_tower_title")}</h3>
+        <p class="hl-card-meta"><b>${t("current_server")}</b> ${esc(townMeta.server)}</p>`;
     }
-    return `<p class="hl-card-kicker">${t("card_cine_kicker")}</p>
-      <h3>${t("card_cine_title")}</h3>
-      <p class="hl-card-meta">${esc(clipsCountLabel())}</p>
+    return `<h3>${t("card_cine_title")}</h3>
       <div class="hl-card-actions"><a class="hl-btn" href="#klipi">${t("btn_clips")}</a></div>`;
   }
 
@@ -657,7 +648,12 @@
     townMeta.tourneyServer = tourneyServerRaw.trim() || t("server_tba");
     townMeta.server = displayServer(currentServerRaw);
     const nowBox = $("#hl-now-server");
-    if (nowBox && !currentServerRaw) { nowBox.textContent = t("server_tba"); nowBox.classList.add("is-tba"); }
+    if (nowBox){
+      nowBox.textContent = currentServerRaw ? displayServer(currentServerRaw) : t("server_tba");
+      nowBox.classList.toggle("is-tba", !currentServerRaw);
+    }
+    const ts = $("#hl-tourney-server");
+    if (ts) ts.textContent = townMeta.tourneyServer;
     fillEventDate();
     fillBoardMeta();
     updateTownMeta();
@@ -710,7 +706,6 @@
   function initTown(){
     const stage = document.querySelector(".hl-town-stage");
     if (!stage) return;
-    loadTownSettings();
 
     const coarse = () => isCoarse();
     $$(".hl-spot").forEach(btn => {
@@ -891,6 +886,7 @@
   document.addEventListener("hl:lang", refreshLang);
   applyDiscordVisibility();
   renderSeats();
+  applyLiveSettings();
   fillEventDate();
   fillBoardMeta();
   tick();
@@ -900,6 +896,7 @@
   loadSeats();
   loadBoard();
   initPresence();
+  loadTownSettings();
   initTown();
   initClips();
 })();

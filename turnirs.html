@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="tourney_doc_title">Turnīrs — Heist Līga</title>
+<meta name="description" content="Heist Līga ir neoficiāla ROB RUN fanu kopienas lapa Latvijā. Nav saistīta ar Kefir." data-i18n-content="meta_desc">
+<link rel="icon" href="logo/mark-vault.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Anton&family=Oswald:wght@400;500;600;700&family=Special+Elite&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>
+  if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))
+    document.documentElement.classList.add("hl-local-preview");
+</script>
+</head>
+<body>
+<div class="hl-root hl-page-turnirs" id="top">
+
+  <div class="hl-example" role="status" data-i18n="preview_banner">⚠ PRIEKŠSKATĪJUMS · lapa vēl nav publiska.</div>
+
+<header class="hl-top">
+    <div class="hl-top-bar">
+      <a class="hl-fa-lockup" href="https://flowathletiq.com/" target="_blank" rel="noopener noreferrer" aria-label="FlowAthletiq">
+        <span class="lg-mark">
+          <picture>
+            <source type="image/webp" srcset="assets/logo-redeye-320.webp 1x, assets/logo-redeye-640.webp 2x">
+            <img src="assets/logo-redeye-320.png" srcset="assets/logo-redeye-640.png 2x" alt="FlowAthletiq" width="320" height="157">
+          </picture>
+          <span class="lg-glint" aria-hidden="true"><i class="lg-g"></i><i class="lg-l"></i></span>
+        </span>
+        <span class="hl-fa-hub" data-i18n="fa_hub">ROB RUN kopienas centrs</span>
+      </a>
+      <a class="hl-brand" href="index.html">
+        <img class="hl-brand-mark" src="logo/mark-vault.svg" width="52" height="52" alt="Heist Līga">
+        <span class="hl-brand-txt"><span class="hl-word">HEIST <b>LĪGA</b></span><i class="hl-flag" aria-hidden="true"></i><span class="hl-tagline" data-i18n="tagline">ROB RUN fanu kopienas līga</span></span>
+      </a>
+      <div class="hl-lang" role="group" aria-label="Valoda" data-i18n-aria="language">
+        <button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="lv" lang="lv" aria-pressed="true" class="is-on">LV</button>
+        <button type="button" data-lang="ru" lang="ru" aria-pressed="false">RU</button>
+      </div>
+    </div>
+    <nav class="hl-nav" aria-label="Lapas sadaļas" data-i18n-aria="nav_label">
+      <a href="index.html#ciems" data-i18n="nav_town">Ciems</a>
+      <a href="index.html#spelejam" data-i18n="nav_server">Serveris</a>
+      <a href="index.html#ka-notiek" data-i18n="nav_how">Kā tas notiek</a>
+      <a href="index.html#noteikumi" data-i18n="nav_rules">Noteikumi</a>
+      <a href="turnirs.html" aria-current="page" data-i18n="nav_signup">Pieteikties</a>
+      <a href="index.html#tabula" data-i18n="nav_board">Tabula</a>
+      <a href="index.html#iesniegt" data-i18n="nav_submit">Iesniegt</a>
+      <a href="index.html#klipi" data-i18n="nav_clips">Klipi</a>
+      <a href="index.html#uzvaretaji" data-i18n="nav_winners">Uzvarētāji</a>
+    </nav>
+  </header>
+
+  <section class="hl-sec" id="pieteikties">
+    <div class="hl-sec-head">
+      <h2 data-i18n="tourney_page_title">Turnīrs</h2>
+    </div>
+    <div class="hl-card hl-tourney-facts">
+      <p><b data-i18n="card_time">Laiks:</b> <span id="hl-event-date">Sestdiena, 19. decembris, 19:00</span> <span data-i18n="riga_time">pēc Rīgas laika</span></p>
+      <p><b data-i18n="card_tourney_server">Turnīra serveris:</b> <span id="hl-tourney-server">Tiks paziņots</span></p>
+      <p class="hl-small" data-i18n="tourney_auth_explain">Spēles Authority ir tavi gadi spēlē. Turnīra Authority šajā startā sākas no 0.</p>
+    </div>
+    <div class="hl-card hl-roster">
+      <h3 data-i18n="signup_list_title">Spēlētāji</h3>
+      <ul class="hl-signup-list" id="hl-signup-list"></ul>
+      <p class="hl-small hl-roster-lead" data-i18n="signup_update_lead">Gribi pievienoties vai atjaunot savu Authority? Ieraksti savu niku un pašreizējo spēles Authority.</p>
+      <form class="hl-form" id="hl-signup" autocomplete="off">
+        <p class="hl-seats" id="hl-seats-form" hidden></p>
+        <label><span data-i18n="label_player">Spēlētāja vārds (Steam / spēlē)</span>
+          <input name="nick" required maxlength="20" placeholder="Tieši tā, kā spēlē" data-i18n-placeholder="ph_signup_nick">
+        </label>
+        <label><span data-i18n="label_signup_auth">Tava spēles Authority (gadi)</span>
+          <input name="authority" type="number" inputmode="numeric" min="0" max="99999" step="1" required placeholder="piem., 12 gadi" data-i18n-placeholder="ph_signup_auth">
+        </label>
+        <button class="hl-btn" type="submit" id="hl-signup-btn" data-i18n="btn_signup_save">Saglabāt</button>
+        <p class="hl-signed" id="hl-signed-note"></p>
+      </form>
+      <div class="hl-discord hl-discord-pending">
+        <a class="hl-btn hl-btn-ghost hl-discord-join is-soon" href="#" aria-disabled="true">Heist Līga Discord</a>
+        <span class="hl-soon" data-i18n="discord_soon">Atsevišķs Heist Līga serveris, nav FlowAthletiq Discord.</span>
+      </div>
+    </div>
+  </section>
+
+<footer class="hl-foot">
+    <p class="hl-fan-line" data-i18n="fan_line">Neoficiāla ROB RUN fanu kopienas lapa. Nav saistīta ar Kefir.</p>
+    <p data-i18n-html="footer_about_html"><b>Heist Līga</b> ir fanu turnīrs šajā lapā. ROB RUN ir tā īpašnieku preču zīme. Oficiālie logo un spēles attēli netiek izmantoti.</p>
+    <p data-i18n-html="footer_org_html">Organizators: <b>vilxv</b></p>
+    <div class="hl-discord hl-discord-pending">
+      <a class="hl-btn hl-btn-ghost hl-discord-join is-soon" href="#" aria-disabled="true">Heist Līga Discord</a>
+      <span class="hl-soon" data-i18n="discord_soon">Atsevišķs Heist Līga serveris, nav FlowAthletiq Discord.</span>
+    </div>
+    <div class="hl-by">
+      <a class="hl-fa-brand" href="https://flowathletiq.com/" target="_blank" rel="noopener noreferrer" aria-label="FlowAthletiq">
+        <span class="hl-fa-mark">
+          <picture>
+            <source srcset="assets/fa-logo.webp" type="image/webp">
+            <img class="hl-fa-logo" src="assets/fa-logo.png" alt="" width="480" height="242">
+          </picture>
+          <span class="logo-eye" aria-hidden="true"><i class="glow"></i><i class="lid"></i></span>
+        </span>
+        <span class="hl-fa-by" data-i18n="by_fa">by FlowAthletiq</span>
+      </a>
+      <p class="hl-fa" data-i18n="planned_url">robrun.flowathletiq.com</p>
+    </div>
+  </footer>
+
+  <div class="hl-toast" id="hl-toast" role="status"></div>
+</div>
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
