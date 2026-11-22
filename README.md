@@ -2,7 +2,7 @@
 
 Unofficial ROB RUN fan-community site in Latvia. The tournament brand is **Heist Līga**. ROB RUN appears only in descriptive text, not in the logo. Not affiliated with Kefir.
 
-**Live:** [https://robrun.flowathletiq.xyz](https://robrun.flowathletiq.xyz)  
+**Live:** [https://robrun.flowathletiq.com](https://robrun.flowathletiq.com)  
 **GitHub Pages:** [https://vilovx.github.io/robrun/](https://vilovx.github.io/robrun/)
 
 This is a static HTML/CSS/JS site. Live sign-ups, results and “I’m playing” go to Supabase (`hl_` tables and RPCs). The public page never sends email or Discord to anonymous clients.
@@ -19,7 +19,7 @@ Organiser panel: `/admin.html` (noindex).
 
 ## DNS
 
-Custom domain: `robrun.flowathletiq.xyz`. At the `flowathletiq.xyz` registrar (GoDaddy), add:
+Custom domain: `robrun.flowathletiq.com`. At the `flowathletiq.com` registrar (GoDaddy), add:
 
 | Type | Name | Value | TTL |
 |------|------|-------|-----|
