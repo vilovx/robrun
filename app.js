@@ -277,7 +277,8 @@
     }
   }
 
-  $("#hl-submit").addEventListener("submit", async e => {
+  const submitForm = $("#hl-submit");
+  if (submitForm) submitForm.addEventListener("submit", async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
     const nick = (fd.get("nick")||"").trim();
