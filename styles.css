@@ -656,13 +656,13 @@ tr.fresh td{background:rgba(182,255,59,.05)}
   .hl-spot.is-on::after{opacity:.88}
   .hl-town-stage{overflow:visible}
   .hl-town-art img{width:100%;height:auto;aspect-ratio:auto;object-fit:unset}
-  .hl-beacon,.hl-beacon-glow{left:15.69%;top:12.20%}
+  .hl-beacon,.hl-beacon-glow{left:18.33%;top:11.44%}
   .hl-beacon{width:1.6%}
   .hl-beacon-glow{width:8.5%}
-  .hl-spot[data-spot="bank"]{left:60%;top:25.5%;width:40%;height:19.5%}
-  .hl-spot[data-spot="pd"]{left:0;top:40%;width:33%;height:24%}
-  .hl-spot[data-spot="cine"]{left:60%;top:60.5%;width:40%;height:26.5%}
-  .hl-spot[data-spot="tower"]{left:6%;top:10.8%;width:19%;height:22%}
+  .hl-spot[data-spot="bank"]{left:57.5%;top:26.5%;width:37.5%;height:15.5%}
+  .hl-spot[data-spot="pd"]{left:3%;top:45%;width:36%;height:15.5%}
+  .hl-spot[data-spot="cine"]{left:65%;top:63%;width:33.5%;height:14.5%}
+  .hl-spot[data-spot="tower"]{left:8.5%;top:10.5%;width:22.5%;height:27.5%}
   .hl-spot[data-spot="bank"]::after{inset:3% 3% 6% 6%;border-radius:8% / 10%}
   .hl-spot[data-spot="pd"]::after{inset:4% 6% 6% 4%;border-radius:8% / 10%}
   .hl-spot[data-spot="cine"]::after{inset:3% 3% 6% 6%;border-radius:6% / 8%}
