@@ -187,7 +187,7 @@
       const nick = esc(s.nickname || "");
       const auth = s.authority;
       const authOk = typeof auth === "number" && Number.isFinite(auth);
-      return `<li>${nick}${authOk ? ` · ${esc(fmtAuth(auth))}` : ""}</li>`;
+      return `<li>${nick}${authOk ? ` #${esc(String(Math.trunc(auth)))}` : ""}</li>`;
     }).join("");
   }
 
