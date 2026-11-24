@@ -114,6 +114,14 @@ html:not(.hl-has-discord) .hl-discord-pending{display:none !important}
   padding:12px 10px; font:500 17px/1.2 var(--mono); color:var(--ink); border-radius:0}
 .wp-form input:focus{outline:none; background:rgba(255,255,255,.75)}
 .wp-hint{margin:-4px 0 18px; font:500 12px/1.5 var(--mono); opacity:.7}
+.wp-yn{border:0; margin:0 0 20px; padding:0; display:flex; flex-wrap:wrap; gap:10px}
+.wp-yn legend{width:100%; padding:0; margin-bottom:8px; font:500 12px/1.3 var(--display); letter-spacing:.14em; text-transform:uppercase}
+.wp-form .wp-yn label{flex:1; margin:0; position:relative; cursor:pointer}
+.wp-yn input{position:absolute; opacity:0; width:1px; height:1px}
+.wp-form .wp-yn label span{margin:0; padding:12px 10px; text-align:center; border:2px solid var(--ink);
+  font:700 16px/1 var(--display); letter-spacing:.16em; background:rgba(255,255,255,.3)}
+.wp-yn input:checked + span{background:var(--ink); color:var(--paper)}
+.wp-yn input:focus-visible + span{outline:2px solid var(--red); outline-offset:2px}
 .wp-x{position:absolute; top:8px; right:10px; background:none; border:0; font:400 28px/1 var(--display); color:var(--ink); cursor:pointer; padding:6px 8px}
 .wp-rules{margin:0; padding-left:20px; font:500 13px/1.55 var(--mono)}
 .wp-rules li{margin:0 0 8px}

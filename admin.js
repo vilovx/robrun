@@ -372,13 +372,14 @@
     }
     wrap.innerHTML = `<table class="hla-table">
       <thead><tr>
-        <th>#</th><th>Spēlētājs</th><th class="r">Spēles Authority (gadi)</th><th>Discord</th><th>E-pasts</th><th>Pieteicies</th><th>Darbības</th>
+        <th>#</th><th>Spēlētājs</th><th class="r">Spēles Authority (gadi)</th><th>Lenny parāds</th><th>Discord</th><th>E-pasts</th><th>Pieteicies</th><th>Darbības</th>
       </tr></thead>
       <tbody>${list.map((s, i) => `
         <tr data-signup-id="${esc(s.id)}">
           <td>${i + 1}</td>
           <td><b>${esc(s.nickname)}</b></td>
           <td class="r">${s.authority == null || s.authority === "" ? "—" : esc(formatAuthority(s.authority))}</td>
+          <td>${s.lenny_paid === true ? "Jā" : s.lenny_paid === false ? "Nē" : "—"}</td>
           <td>${esc(s.discord || "—")}</td>
           <td>${esc(s.email || "—")}</td>
           <td>${esc(fmtWhen(s.created_at))}</td>
@@ -661,8 +662,8 @@
   $("#hla-export-signups").addEventListener("click", () => {
     const list = state.signups || [];
     const csvCell = v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
-    const rows = [["nickname","authority","discord","email","created_at"]]
-      .concat(list.map(s => [s.nickname, s.authority == null ? "" : s.authority, s.discord || "", s.email || "", s.created_at]));
+    const rows = [["nickname","authority","lenny_paid","discord","email","created_at"]]
+      .concat(list.map(s => [s.nickname, s.authority == null ? "" : s.authority, s.lenny_paid == null ? "" : (s.lenny_paid ? "yes" : "no"), s.discord || "", s.email || "", s.created_at]));
     const blob = new Blob([rows.map(r => r.map(csvCell).join(",")).join("\n")], { type: "text/csv;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
