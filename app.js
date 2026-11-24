@@ -312,7 +312,8 @@
       await loadBoard();
       e.target.reset();
       toast(mine ? t("result_updated") : t("result_sent"));
-      $("#tabula").scrollIntoView({behavior:"smooth", block:"start"});
+      const tabula = $("#tabula");
+      if (tabula) tabula.scrollIntoView({behavior:"smooth", block:"start"});
     } catch (err) {
       toast(err.message || t("result_fail_retry"));
     }
