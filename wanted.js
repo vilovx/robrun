@@ -58,10 +58,20 @@
     } catch {}
   }
 
+  /* Old links to the former home-page sections still land somewhere useful. */
+  function openFromHash(){
+    const h = (location.hash || "").slice(1);
+    if (h === "noteikumi") openDlg("wp-rules");
+    else if (h === "pieteikties") openDlg("wp-signup");
+    else if (h === "iesniegt" && !$("#wp-open-result").hidden) openDlg("wp-result");
+  }
+
   function refresh(){ gate(); fillDate(); }
   document.addEventListener("hl:lang", refresh);
   refresh();
   setInterval(gate, 15000);
   /* hl_settings may move the start after load. */
   setTimeout(refresh, 2500);
+  openFromHash();
+  window.addEventListener("hashchange", openFromHash);
 })();

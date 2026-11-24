@@ -126,8 +126,15 @@ html:not(.hl-has-discord) .hl-discord-pending{display:none !important}
 .hl-toast.show{opacity:1; transform:translate(-50%,0)}
 
 @media (min-width:900px) and (max-height:1000px){
-  .wp-stage{padding-top:0}
-  .wp-title{font-size:88px; margin:6px 0 12px}
+  .wp-top{padding-top:12px; padding-bottom:12px}
+  .wp-stage{padding-top:0; padding-bottom:28px}
+  .wp-poster{max-width:420px; padding-top:24px; padding-bottom:20px}
+  .wp-title{font-size:80px; margin:4px 0 10px}
+  .wp-photo img{aspect-ratio:2/1}
+  .wp-date{font-size:30px}
+  .wp-btn{padding-top:16px; padding-bottom:15px}
+  .wp-foot{padding-top:24px; padding-bottom:18px}
+  .wp-fine{margin-top:18px}
   .wp-photo{margin-bottom:16px}
   .wp-count{margin:10px 0 16px}
   .wp-roster{margin-top:16px}

@@ -5,6 +5,8 @@ Unofficial ROB RUN fan-community site in Latvia. The tournament brand is **Heist
 **Live:** [https://robrun.flowathletiq.com](https://robrun.flowathletiq.com)  
 **GitHub Pages:** [https://vilovx.github.io/robrun/](https://vilovx.github.io/robrun/)
 
+The home page is a minimal "wanted poster" for the tournament (`index.html`, `wanted.css`, `wanted.js`); `turnirs.html` redirects to it. The former village map page is retired for now; its art stays in `assets/` and `styles.css`, and the page is in git history.
+
 This is a static HTML/CSS/JS site. Live sign-ups, results and “I’m playing” go to Supabase (`hl_` tables and RPCs). The public page never sends email or Discord to anonymous clients.
 
 ## Local preview
