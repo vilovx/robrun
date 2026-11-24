@@ -218,11 +218,14 @@
     if (!Number.isInteger(authority) || authority < 0 || authority > 99999){
       toast(t("signup_auth_invalid")); return;
     }
+    const lennyRaw = String(fd.get("lenny") || "");
+    if (e.target.querySelector('input[name="lenny"]') && lennyRaw !== "yes" && lennyRaw !== "no"){
+      toast(t("lenny_required")); return;
+    }
+    const payload = { p_nickname: nick, p_authority: authority };
+    if (lennyRaw) payload.p_lenny_paid = lennyRaw === "yes";
     try {
-      const out = await hlRpc("hl_signup_add", {
-        p_nickname: nick,
-        p_authority: authority
-      });
+      const out = await hlRpc("hl_signup_add", payload);
       if (!out || out.ok === false){
         toast(rpcErr(out && out.error, "signup_fail"));
         if (out && typeof out.count === "number"){
